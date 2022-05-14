@@ -5,9 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HotelSearchPages {
 
@@ -36,9 +34,13 @@ public class HotelSearchPages {
 
     @FindBy(xpath = "//button[text()=' Search']")
     private WebElement searchButton;
-// --------------- Inicjalizacja zmiennych @FindBy za pomocą page object factory ----------------------- //
+
+    private WebDriver driver;
+
+    // --------------- Inicjalizacja zmiennych @FindBy za pomocą page object factory ----------------------- //
     public HotelSearchPages(WebDriver driver){
         PageFactory.initElements(driver, this);
+        this.driver = driver;
     }
 
 
@@ -46,7 +48,9 @@ public class HotelSearchPages {
     public void setCity(String cityName){
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
-        hotelMatch.click();
+        String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
+        driver.findElement(By.xpath(xpath)).click();
+//        hotelMatch.click();
     }
 
     public void setDates(String checkInData, String checkOutData){
@@ -54,12 +58,19 @@ public class HotelSearchPages {
         this.checkOut.sendKeys(checkOutData);
     }
 
-    public void setTravelers(){
+    public void setTravelers(int adultsToAdd, int childToAdd){
+
         travellersInput.click();
-        adultPlusBtn.click();
-        childPlusBtn.click();
+        addTraveler(adultPlusBtn,adultsToAdd);
+        addTraveler(childPlusBtn,childToAdd);
     }
 
+    private void addTraveler(WebElement travelerBtn, int numberOfTravelers){
+        for (int i = 0; i < numberOfTravelers; i++) {
+            travelerBtn.click();
+        }
+
+    }
     public void performSearch(){
         searchButton.click();
     }

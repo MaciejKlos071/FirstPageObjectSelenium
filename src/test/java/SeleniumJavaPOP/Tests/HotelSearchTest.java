@@ -1,6 +1,7 @@
 package SeleniumJavaPOP.Tests;
 
 import SeleniumJavaPOP.Pages.HotelSearchPages;
+import SeleniumJavaPOP.Pages.ResultsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,12 +21,16 @@ public class HotelSearchTest extends BaseTest {
         //------------------ Test w wersji page object pattern ------------------//
 
         HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
-        hotelSearchPages.setCity("Dubai");
+        hotelSearchPages.setCity("London");
         hotelSearchPages.setDates("01/05/2022","09/05/2022");
-        hotelSearchPages.setTravelers();
+        hotelSearchPages.setTravelers(1,2);
         hotelSearchPages.performSearch();
-
-
+        ResultsPage resultsPage = new ResultsPage(driver);
+        List<String> hotelNames = resultsPage.getHotelNames();
+        Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
+        Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower" );
+        Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
+        Assert.assertEquals(hotelNames.get(3), "Hyatt Regency Perth");
 
 
         //----------------------- Test w wersji liniowej --------------------------- //
@@ -62,21 +67,34 @@ public class HotelSearchTest extends BaseTest {
     @Test
     public void searchHotelWithoutName(){
 
-        //data wpisanie daty
-        driver.findElement(By.name("checkin")).sendKeys("12/04/2022");
-        driver.findElement(By.name("checkout")).sendKeys("17/04/2022");
-        //wybranie daty z kalendarza
-        driver.findElements(By.xpath("//td[@class='day ' and text()='28']")).stream()
-                .filter(WebElement::isDisplayed)
-                .findFirst()
-                .ifPresent(WebElement::click);
-        driver.findElement(By.id("travellersInput")).click();
-        driver.findElement(By.id("childPlusBtn")).click();
-        driver.findElement(By.xpath("//button[text()=' Search']")).click();
+        //------------------ Test w wersji page object pattern ------------------//
 
-        WebElement noResultHeading = driver.findElement(By.xpath("//div[@class = 'itemscontainer']//h2"));
-        Assert.assertTrue(noResultHeading.isDisplayed());
-        Assert.assertEquals(noResultHeading.getText(), "No Results Found");
+        HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
+//        hotelSearchPages.setCity("Dubai");
+        hotelSearchPages.setDates("01/05/2022","09/05/2022");
+        hotelSearchPages.setTravelers(1,2);
+        hotelSearchPages.performSearch();
+        ResultsPage resultsPage = new ResultsPage(driver);
+        Assert.assertEquals(resultsPage.getHeadingText(),"No Reults Found");
+        Assert.assertTrue(resultsPage.resultHeading.isDisplayed());
+
+        //----------------------- Test w wersji liniowej --------------------------- //
+
+//        //data wpisanie daty
+//        driver.findElement(By.name("checkin")).sendKeys("12/04/2022");
+//        driver.findElement(By.name("checkout")).sendKeys("17/04/2022");
+//        //wybranie daty z kalendarza
+//        driver.findElements(By.xpath("//td[@class='day ' and text()='28']")).stream()
+//                .filter(WebElement::isDisplayed)
+//                .findFirst()
+//                .ifPresent(WebElement::click);
+//        driver.findElement(By.id("travellersInput")).click();
+//        driver.findElement(By.id("childPlusBtn")).click();
+//        driver.findElement(By.xpath("//button[text()=' Search']")).click();
+//
+//        WebElement noResultHeading = driver.findElement(By.xpath("//div[@class = 'itemscontainer']//h2"));
+//        Assert.assertTrue(noResultHeading.isDisplayed());
+//        Assert.assertEquals(noResultHeading.getText(), "No Results Found");
 
     }
 
