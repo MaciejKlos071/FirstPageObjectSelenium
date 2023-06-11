@@ -2,37 +2,45 @@ package SeleniumJavaPOP.Tests;
 
 import SeleniumJavaPOP.Pages.HotelSearchPages;
 import SeleniumJavaPOP.Pages.ResultsPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HotelSearchTest extends BaseTest {
 
 
     @Test
     public void searchHotelTest(){
-        //------------------ Test w wersji page object pattern ------------------//
 
-        HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
-        hotelSearchPages.setCity("Dubai");
-        hotelSearchPages.setDates("01/05/2022","09/05/2022");
-        hotelSearchPages.setTravelers(1,2);
-        hotelSearchPages.performSearch();
+        //------------------ Test w wersji page object pattern FLUENT ------------------//
 
-        ResultsPage resultsPage = new ResultsPage(driver);
-        List<String> hotelNames = resultsPage.getHotelNames();
+        List<String> hotelNames = new HotelSearchPages(driver)
+            .setCityFluent("Dubai")
+            .setDatesFluent("01/05/2022","09/05/2022")
+            .setTravelersFluent(1,2)
+            .performSearchFluent()
+            .getHotelNames();
 
         Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
         Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower" );
         Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
         Assert.assertEquals(hotelNames.get(3), "Hyatt Regency Perth");
+        //------------------ Test w wersji page object pattern ------------------//
+
+//        HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
+//        hotelSearchPages.setCity("Dubai");
+//        hotelSearchPages.setDates("01/05/2022","09/05/2022");
+//        hotelSearchPages.setTravelers(1,2);
+//        hotelSearchPages.performSearch();
+//
+//        ResultsPage resultsPage = new ResultsPage(driver);
+//        List<String> hotelNames = resultsPage.getHotelNames();
+//
+//        Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
+//        Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower" );
+//        Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
+//        Assert.assertEquals(hotelNames.get(3), "Hyatt Regency Perth");
 
 
         //----------------------- Test w wersji liniowej --------------------------- //
@@ -68,17 +76,26 @@ public class HotelSearchTest extends BaseTest {
     }
     @Test
     public void searchHotelWithoutName(){
+        //------------------ Test w wersji page object pattern FLUENT ------------------//
+
+        ResultsPage resultsPage = new HotelSearchPages(driver)
+            .setDatesFluent("01/05/2022","09/05/2022")
+            .setTravelersFluent(1,2)
+            .performSearchFluent();
+
+        Assert.assertEquals(resultsPage.getHeadingText(),"No Results Found");
+        Assert.assertTrue(resultsPage.resultHeading.isDisplayed());
 
         //------------------ Test w wersji page object pattern ------------------//
 
-        HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
-//        hotelSearchPages.setCity("Dubai");
-        hotelSearchPages.setDates("01/05/2022","09/05/2022");
-        hotelSearchPages.setTravelers(1,2);
-        hotelSearchPages.performSearch();
-        ResultsPage resultsPage = new ResultsPage(driver);
-        Assert.assertEquals(resultsPage.getHeadingText(),"No Results Found");
-        Assert.assertTrue(resultsPage.resultHeading.isDisplayed());
+//        HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
+////        hotelSearchPages.setCity("Dubai");
+//        hotelSearchPages.setDates("01/05/2022","09/05/2022");
+//        hotelSearchPages.setTravelers(1,2);
+//        hotelSearchPages.performSearch();
+//        ResultsPage resultsPage = new ResultsPage(driver);
+//        Assert.assertEquals(resultsPage.getHeadingText(),"No Results Found");
+//        Assert.assertTrue(resultsPage.resultHeading.isDisplayed());
 
         //----------------------- Test w wersji liniowej --------------------------- //
 
@@ -99,5 +116,23 @@ public class HotelSearchTest extends BaseTest {
 //        Assert.assertEquals(noResultHeading.getText(), "No Results Found");
 
     }
+    //------------------ Test w wersji page object pattern PODEJŚCIE FLUENT------------------//
+    @Test
+    public void searchHotelTestFluent() {
+        //------------------ Test w wersji page object pattern ------------------//
 
+        HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
+        List<String> hotelNames = hotelSearchPages
+            .setCityFluent("Dubai")
+            .setDatesFluent("01/05/2022", "09/05/2022")
+            .setTravelersFluent(1, 2)
+            .performSearchFluent()
+            .getHotelNames();
+
+
+        Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
+        Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower");
+        Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
+        Assert.assertEquals(hotelNames.get(3), "Hyatt Regency Perth");
+    }
 }
