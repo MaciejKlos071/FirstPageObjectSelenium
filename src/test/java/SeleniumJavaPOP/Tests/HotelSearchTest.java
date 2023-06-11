@@ -21,12 +21,14 @@ public class HotelSearchTest extends BaseTest {
         //------------------ Test w wersji page object pattern ------------------//
 
         HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
-        hotelSearchPages.setCity("London");
+        hotelSearchPages.setCity("Dubai");
         hotelSearchPages.setDates("01/05/2022","09/05/2022");
         hotelSearchPages.setTravelers(1,2);
         hotelSearchPages.performSearch();
+
         ResultsPage resultsPage = new ResultsPage(driver);
         List<String> hotelNames = resultsPage.getHotelNames();
+
         Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
         Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower" );
         Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
@@ -75,7 +77,7 @@ public class HotelSearchTest extends BaseTest {
         hotelSearchPages.setTravelers(1,2);
         hotelSearchPages.performSearch();
         ResultsPage resultsPage = new ResultsPage(driver);
-        Assert.assertEquals(resultsPage.getHeadingText(),"No Reults Found");
+        Assert.assertEquals(resultsPage.getHeadingText(),"No Results Found");
         Assert.assertTrue(resultsPage.resultHeading.isDisplayed());
 
         //----------------------- Test w wersji liniowej --------------------------- //
