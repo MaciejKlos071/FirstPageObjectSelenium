@@ -18,7 +18,7 @@ public class SingUpTest extends BaseTest {
     private static final String phone = "505202303";
     private static final String password = "password";
     private static final String eMail = EmailGenerator.generateRandomEmail();
-//    private static final String[] communicate =
+    //    private static final String[] communicate =
 //            {
 //                    "The Email field is required.",
 //                    "The Password field is required.",
@@ -26,17 +26,11 @@ public class SingUpTest extends BaseTest {
 //                    "The First name field is required.",
 //                    "The Last Name field is required."
 //            };
-    private static final Map<String, String> communicateKeyList = Map.of(
-            "emptyEmail","The Email field is required.",
-            "password","The Password field is required.",
-            "firstname","The First name field is required.",
-            "fristname","The Last Name field is required.",
-            "invalidEmail", "The Email field must contain a valid email address."
-    );
+    private static final Map<String, String> communicateKeyList = Map.of("emptyEmail", "The Email field is required.", "password", "The Password field is required.", "firstname", "The First name field is required.", "fristname", "The Last Name field is required.", "invalidEmail", "The Email field must contain a valid email address.");
 
 
     @Test
-    public void singUp(){
+    public void singUp() {
         //------------------ Test w wersji page object pattern PODEJŚCIE FLUENT------------------//
         User user = new User();
         user.setFirstName("Maciej");
@@ -44,9 +38,7 @@ public class SingUpTest extends BaseTest {
         user.setPhone("567678789");
         user.setEmail(eMail);
         user.setPassword("password");
-         new TopBarMenuPage(driver).openSignUpFormFluent()
-                .fillSingUpFormUserModelFluent(user)
-                .checkHeadingFlueant("Hi, "+user.getFirstName()+" "+user.getLastName());
+        new TopBarMenuPage(driver).openSignUpFormFluent().fillSingUpFormUserModelFluent(user).checkHeadingFlueant("Hi, " + user.getFirstName() + " " + user.getLastName());
 
         //------------------ Test w wersji page object pattern ------------------//
 //        TopBarMenuPage topBarMenu = new TopBarMenuPage(driver);
@@ -81,8 +73,9 @@ public class SingUpTest extends BaseTest {
 //        Assert.assertTrue(heading.getText().contains(lastName));
 
     }
+
     @Test
-    public void signUpEmptyForm(){
+    public void signUpEmptyForm() {
         //------------------ Test w wersji page object pattern PODEJŚCIE FLUENT------------------//
 
         SingUpPage singUp = new TopBarMenuPage(driver).openSignUpFormFluent().performSingUpSamePage();
@@ -131,17 +124,11 @@ public class SingUpTest extends BaseTest {
 //        softAssert.assertAll();
 
     }
+
     @Test
-    public void singUpInvalidEmail(){
+    public void singUpInvalidEmail() {
         //------------------ Test w wersji page object pattern PODEJŚCIE FLUENT------------------//
-        SingUpPage singUp = new TopBarMenuPage(driver).openSignUpFormFluent()
-                .setFirstnameFluent(firstName)
-                .setLastnameFluent(lastName)
-                .setPhoneFluent(phone)
-                .setEmailFluent("maciej@maciej@gmail.com")
-                .setPasswordFluent(password)
-                .setConfirmpasswordFluent(password)
-                .performSingUpSamePage();
+        SingUpPage singUp = new TopBarMenuPage(driver).openSignUpFormFluent().setFirstnameFluent(firstName).setLastnameFluent(lastName).setPhoneFluent(phone).setEmailFluent("maciej@maciej@gmail.com").setPasswordFluent(password).setConfirmpasswordFluent(password).performSingUpSamePage();
         SoftAssert softAssert = new SoftAssert();
         System.out.println(String.join(", ", singUp.errorList()));
 //        System.out.println(singUp.errorList().stream().collect(Collectors.joining(", ")));
@@ -184,12 +171,11 @@ public class SingUpTest extends BaseTest {
 //
 //        Assert.assertTrue(errors.contains("The Email field is required."));
     }
+
     @Test
     public void singUpshort() {
         //------------------ Test w wersji page object pattern PODEJŚCIE FLUENT------------------//
-        new TopBarMenuPage(driver).openSignUpFormFluent()
-                .fillSingUpFormFluent(firstName,lastName,phone,eMail,password)
-                .checkHeadingFlueant("Hi, " + firstName + " " + lastName);
+        new TopBarMenuPage(driver).openSignUpFormFluent().fillSingUpFormFluent(firstName, lastName, phone, eMail, password).checkHeadingFlueant("Hi, " + firstName + " " + lastName);
         //------------------ Test w wersji page object pattern ------------------//
 
 //        new TopBarMenuPage(driver).openSignUpForm();
@@ -197,6 +183,7 @@ public class SingUpTest extends BaseTest {
 //        new LogedUserPage(driver).checkHeading("Hi, " + firstName + " " + lastName);
 
     }
+
     @Test
     public void singUpshortUserModel() {
         //------------------ Test w wersji page object pattern PODEJŚCIE FLUENT------------------//
@@ -213,7 +200,6 @@ public class SingUpTest extends BaseTest {
         new LogedUserPage(driver).checkHeading("Hi, " + user.getFirstName() + " " + user.getLastName());
 
     }
-
 
 
 }

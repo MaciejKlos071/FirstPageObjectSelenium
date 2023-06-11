@@ -25,7 +25,7 @@ public class LogedUserPage {
     private final WebDriver driver;
 
     // --------------- Inicjalizacja zmiennych @FindBy za pomocą page object factory ----------------------- //
-    public LogedUserPage(WebDriver driver){
+    public LogedUserPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
 
@@ -33,12 +33,13 @@ public class LogedUserPage {
 
     // --------------- Dodatkowe metody pomocnicze ----------------------- //
 
-    private void  waitForElementVisible(WebElement elementToWait){
+    private void waitForElementVisible(WebElement elementToWait) {
         WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.visibilityOf(elementToWait));
 
     }
-    private void clickElement(WebElement elementToClick){
+
+    private void clickElement(WebElement elementToClick) {
         WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
         elementToClick.click();
@@ -47,15 +48,16 @@ public class LogedUserPage {
 
     // --------------- Metody na stronie ----------------------- //
 
-    public void checkHeading(String expectedHeading){
+    public void checkHeading(String expectedHeading) {
 //        waitForElementVisible(heading);
-        Assert.assertTrue(heading.getText().contains(expectedHeading),"Heading"+expectedHeading+" correct");
+        Assert.assertTrue(heading.getText().contains(expectedHeading), "Heading" + expectedHeading + " correct");
 
     }
+
     // --------------- Metody FLUENT na stronie ----------------------- //
-    public LogedUserPage checkHeadingFlueant(String expectedHeading){
+    public LogedUserPage checkHeadingFlueant(String expectedHeading) {
 //        waitForElementVisible(heading);
-        Assert.assertTrue(heading.getText().contains(expectedHeading),"Heading"+expectedHeading+" correct");
+        Assert.assertTrue(heading.getText().contains(expectedHeading), "Heading" + expectedHeading + " correct");
         return this;
     }
 }

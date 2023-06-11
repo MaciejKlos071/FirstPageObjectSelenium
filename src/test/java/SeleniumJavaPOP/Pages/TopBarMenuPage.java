@@ -21,51 +21,55 @@ public class TopBarMenuPage {
 
 
     // --------------- Inicjalizacja zmiennych @FindBy za pomocą page object factory ----------------------- //
-    public TopBarMenuPage(WebDriver driver){
+    public TopBarMenuPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
 
     }
     // --------------- Dodatkowe metody pomocnicze ----------------------- //
 
-    public void  waitForElementVisible(WebElement elementToWait){
+    public void waitForElementVisible(WebElement elementToWait) {
         WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.visibilityOf(elementToWait));
 
     }
-    public void clickElement(WebElement elementToClick){
+
+    public void clickElement(WebElement elementToClick) {
         WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
         elementToClick.click();
 
     }
+
     // --------------- Metody na stronie ----------------------- //
-    private void performSingUpTopBar(){
+    private void performSingUpTopBar() {
         singUpTopBarElement.stream().filter(WebElement::isDisplayed)
                 .findFirst().ifPresent(WebElement::click);
     }
-    private void singUpTopBarListElement(){
+
+    private void singUpTopBarListElement() {
         waitForElementVisible(singUpTopBarListElement.get(1));
         clickElement(singUpTopBarListElement.get(1));
     }
 
-    public void openSignUpForm(){
+    public void openSignUpForm() {
         performSingUpTopBar();
         singUpTopBarListElement();
     }
     // --------------- Metody FLUENT na stronie ----------------------- //
 
-    private void performSingUpTopBarFluent(){
+    private void performSingUpTopBarFluent() {
         singUpTopBarElement.stream().filter(WebElement::isDisplayed)
                 .findFirst().ifPresent(WebElement::click);
     }
-    private void singUpTopBarListElementFluent(){
+
+    private void singUpTopBarListElementFluent() {
         waitForElementVisible(singUpTopBarListElement.get(1));
         clickElement(singUpTopBarListElement.get(1));
 
     }
 
-    public SingUpPage openSignUpFormFluent(){
+    public SingUpPage openSignUpFormFluent() {
         performSingUpTopBarFluent();
         singUpTopBarListElementFluent();
         return new SingUpPage(driver);

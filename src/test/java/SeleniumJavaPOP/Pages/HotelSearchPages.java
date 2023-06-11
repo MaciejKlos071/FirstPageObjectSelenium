@@ -38,7 +38,7 @@ public class HotelSearchPages {
     private WebDriver driver;
 
     // --------------- Inicjalizacja zmiennych @FindBy za pomocą page object factory ----------------------- //
-    public HotelSearchPages(WebDriver driver){
+    public HotelSearchPages(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
@@ -46,38 +46,39 @@ public class HotelSearchPages {
 
     // --------------- Metody na stronie ----------------------- //
 
-    public void setCity(String cityName){
+    public void setCity(String cityName) {
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
         driver.findElement(By.xpath(xpath)).click();
     }
 
-    public void setDates(String checkInData, String checkOutData){
+    public void setDates(String checkInData, String checkOutData) {
         this.checkIn.sendKeys(checkInData);
         this.checkOut.sendKeys(checkOutData);
     }
 
-    public void setTravelers(int adultsToAdd, int childToAdd){
+    public void setTravelers(int adultsToAdd, int childToAdd) {
 
         travellersInput.click();
-        addTraveler(adultPlusBtn,adultsToAdd);
-        addTraveler(childPlusBtn,childToAdd);
+        addTraveler(adultPlusBtn, adultsToAdd);
+        addTraveler(childPlusBtn, childToAdd);
     }
 
-    private void addTraveler(WebElement travelerBtn, int numberOfTravelers){
+    private void addTraveler(WebElement travelerBtn, int numberOfTravelers) {
         for (int i = 0; i < numberOfTravelers; i++) {
             travelerBtn.click();
         }
 
     }
-    public void performSearch(){
+
+    public void performSearch() {
         searchButton.click();
     }
 
 
     // --------------- Metody FLUENT na stronie ----------------------- //
-    public HotelSearchPages setCityFluent(String cityName){
+    public HotelSearchPages setCityFluent(String cityName) {
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
@@ -85,23 +86,23 @@ public class HotelSearchPages {
         return this;
     }
 
-    public HotelSearchPages setDatesFluent(String checkInData, String checkOutData){
+    public HotelSearchPages setDatesFluent(String checkInData, String checkOutData) {
         this.checkIn.sendKeys(checkInData);
         this.checkOut.sendKeys(checkOutData);
         return this;
 
     }
 
-    public HotelSearchPages setTravelersFluent(int adultsToAdd, int childToAdd){
+    public HotelSearchPages setTravelersFluent(int adultsToAdd, int childToAdd) {
 
         travellersInput.click();
-        addTraveler(adultPlusBtn,adultsToAdd);
-        addTraveler(childPlusBtn,childToAdd);
+        addTraveler(adultPlusBtn, adultsToAdd);
+        addTraveler(childPlusBtn, childToAdd);
         return this;
 
     }
 
-    public ResultsPage performSearchFluent(){
+    public ResultsPage performSearchFluent() {
         searchButton.click();
         return new ResultsPage(driver);
 

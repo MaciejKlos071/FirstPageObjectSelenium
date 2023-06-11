@@ -53,7 +53,7 @@ public class SingUpPage {
     private final WebDriver driver;
 
     // --------------- Inicjalizacja zmiennych @FindBy za pomocą page object factory ----------------------- //
-    public SingUpPage(WebDriver driver){
+    public SingUpPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
 
@@ -61,12 +61,13 @@ public class SingUpPage {
 
     // --------------- Dodatkowe metody pomocnicze ----------------------- //
 
-    private void  waitForElementVisible(WebElement elementToWait){
+    private void waitForElementVisible(WebElement elementToWait) {
         WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.visibilityOf(elementToWait));
 
     }
-    private void clickElement(WebElement elementToClick){
+
+    private void clickElement(WebElement elementToClick) {
         WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
         elementToClick.click();
@@ -84,10 +85,12 @@ public class SingUpPage {
         waitForElementVisible(lastname);
         lastname.sendKeys(lastUsername);
     }
+
     public void setEmail(String userEmail) {
         waitForElementVisible(eMail);
         eMail.sendKeys(userEmail);
     }
+
     public void setPhone(String userPhone) {
         waitForElementVisible(phone);
         phone.sendKeys(userPhone);
@@ -104,22 +107,23 @@ public class SingUpPage {
     }
 
 
-    public void performSingUp(){
+    public void performSingUp() {
         clickElement(singUpRegisterButton);
     }
 
-    public SingUpPage performSingUpSamePage(){
+    public SingUpPage performSingUpSamePage() {
         clickElement(singUpRegisterButton);
         return this;
     }
 
-    public List<String> errorList(){
+    public List<String> errorList() {
         List<String> errors = errorList.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
         return errors;
     }
-//    public void fillSingUpForm(String fName, String lName, String phoneNum, String eMail, String password ){
+
+    //    public void fillSingUpForm(String fName, String lName, String phoneNum, String eMail, String password ){
 //        setFirstname(fName);
 //        setLastname(lName);
 //        setPhone(phoneNum);
@@ -128,7 +132,7 @@ public class SingUpPage {
 //        setConfirmpassword(password);
 //        performSingUp();
 //    }
-    public void fillSingUpFormUserModel(User user){
+    public void fillSingUpFormUserModel(User user) {
         setFirstname(user.getFirstName());
         setLastname(user.getLastName());
         setPhone(user.getPhone());
@@ -152,11 +156,13 @@ public class SingUpPage {
         return this;
 
     }
+
     public SingUpPage setEmailFluent(String userEmail) {
         waitForElementVisible(eMail);
         eMail.sendKeys(userEmail);
         return this;
     }
+
     public SingUpPage setPhoneFluent(String userPhone) {
         waitForElementVisible(phone);
         phone.sendKeys(userPhone);
@@ -176,15 +182,14 @@ public class SingUpPage {
     }
 
 
-    public LogedUserPage performSingUpFluent(){
+    public LogedUserPage performSingUpFluent() {
         clickElement(singUpRegisterButton);
         return new LogedUserPage(driver);
 
     }
 
 
-
-    public LogedUserPage fillSingUpFormFluent(String fName, String lName, String phoneNum, String eMail, String password ){
+    public LogedUserPage fillSingUpFormFluent(String fName, String lName, String phoneNum, String eMail, String password) {
         setFirstnameFluent(fName);
         setLastnameFluent(lName);
         setPhoneFluent(phoneNum);
@@ -193,7 +198,8 @@ public class SingUpPage {
         setConfirmpasswordFluent(password);
         return performSingUpFluent();
     }
-    public LogedUserPage fillSingUpFormUserModelFluent(User user){
+
+    public LogedUserPage fillSingUpFormUserModelFluent(User user) {
         setFirstnameFluent(user.getFirstName());
         setLastnameFluent(user.getLastName());
         setPhoneFluent(user.getPhone());
