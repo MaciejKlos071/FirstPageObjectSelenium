@@ -1,5 +1,6 @@
 package SeleniumJavaPOP.Pages;
 
+import SeleniumJavaPOP.Model.User;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,12 +8,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SingUpPage {
 
+    // --------------- Selektory elementów na stronie ----------------------- //
     @FindBy(name = "firstname")
     private WebElement firstName;
 
@@ -28,19 +30,12 @@ public class SingUpPage {
     @FindBy(name = "email")
     private WebElement eMail;
 
-
     @FindBy(name = "confirmpassword")
     private WebElement confirmPassword;
 
-    @FindBy(xpath = "//h3[@class = 'RTL']")
-    private WebElement heading;
+    @FindBy(xpath = "//div[@class='alert alert-danger']//p")
+    private List<WebElement> errorList;
 
-
-    @FindBy(xpath = "//li[@id='li_myaccount']")
-    private List<WebElement> singUpTopBarElement;
-
-    @FindBy(xpath = "//a[text() = '  Sign Up']")
-    private List<WebElement> singUpTopBarListElement;
 
     @FindBy(xpath = "//button[contains(@class, 'signupbtn') ]")
     private WebElement singUpRegisterButton;
@@ -48,24 +43,27 @@ public class SingUpPage {
     private final WebDriver driver;
 
     // --------------- Inicjalizacja zmiennych @FindBy za pomocą page object factory ----------------------- //
-    public SingUpPage(WebDriver driver){
+    public SingUpPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
 
     }
-    public void  waitForElementVisible(WebElement elementToWait){
+
+    // --------------- Dodatkowe metody pomocnicze ----------------------- //
+    private void waitForElementVisible(WebElement elementToWait) {
         WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.visibilityOf(elementToWait));
 
     }
-    public void clickElement(WebElement elementToClick){
+
+    private void clickElement(WebElement elementToClick) {
         WebDriverWait wait = new WebDriverWait(this.driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
         elementToClick.click();
 
     }
 
-
+    // --------------- Metody na stronie ----------------------- //
     public void setFirstname(String firstUserName) {
         waitForElementVisible(firstName);
         firstName.sendKeys(firstUserName);
@@ -75,10 +73,12 @@ public class SingUpPage {
         waitForElementVisible(lastname);
         lastname.sendKeys(lastUsername);
     }
+
     public void setEmail(String userEmail) {
         waitForElementVisible(eMail);
         eMail.sendKeys(userEmail);
     }
+
     public void setPhone(String userPhone) {
         waitForElementVisible(phone);
         phone.sendKeys(userPhone);
@@ -95,22 +95,39 @@ public class SingUpPage {
     }
 
 
-    public void performSingUp(){
+    public void performSingUp() {
         clickElement(singUpRegisterButton);
     }
 
-    public void performSingUpTopBar(){
-        singUpTopBarElement.stream().filter(WebElement::isDisplayed)
-                .findFirst().ifPresent(WebElement::click);
-    }
-    public void singUpTopBarListElement(){
-        waitForElementVisible(singUpTopBarListElement.get(1));
-        clickElement(singUpTopBarListElement.get(1));
+    public SingUpPage performSingUpSamePage() {
+        clickElement(singUpRegisterButton);
+        return this;
     }
 
-    public void checkHeading(String expectedHeading){
-        waitForElementVisible(heading);
-        Assert.assertTrue(heading.getText().contains(expectedHeading),"Heading"+expectedHeading+" correct");
-
+    public List<String> errorList() {
+        List<String> errors = errorList.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+        return errors;
     }
+
+        public void fillSingUpForm(String fName, String lName, String phoneNum, String eMail, String password ){
+        setFirstname(fName);
+        setLastname(lName);
+        setPhone(phoneNum);
+        setEmail(eMail);
+        setPassword(password);
+        setConfirmpassword(password);
+        performSingUp();
+    }
+    public void fillSingUpFormUserModel(User user) {
+        setFirstname(user.getFirstName());
+        setLastname(user.getLastName());
+        setPhone(user.getPhone());
+        setEmail(user.getEmail());
+        setPassword(user.getPassword());
+        setConfirmpassword(user.getPassword());
+        performSingUp();
+    }
+
 }
