@@ -1,5 +1,6 @@
 package SeleniumJavaPOP.Tests;
 
+import SeleniumJavaPOP.utils.DriverFactory;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 import org.openqa.selenium.By;
@@ -17,15 +18,15 @@ public class BaseTest {
     @BeforeMethod
     public void setup() {
         System.out.println("TEST START");
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver();
+
+        driver = DriverFactory.getDriver("firefox");
         driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get("http://www.kurs-selenium.pl/demo/");
     }
 
     @AfterMethod
-    public void tearDown(){
+    public void tearDown() {
         driver.quit();
     }
 

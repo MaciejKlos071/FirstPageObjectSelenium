@@ -111,7 +111,7 @@ public class SingUpPage {
         return errors;
     }
 
-        public void fillSingUpForm(String fName, String lName, String phoneNum, String eMail, String password ){
+    public void fillSingUpForm(String fName, String lName, String phoneNum, String eMail, String password) {
         setFirstname(fName);
         setLastname(lName);
         setPhone(phoneNum);
@@ -120,6 +120,7 @@ public class SingUpPage {
         setConfirmpassword(password);
         performSingUp();
     }
+
     public void fillSingUpFormUserModel(User user) {
         setFirstname(user.getFirstName());
         setLastname(user.getLastName());

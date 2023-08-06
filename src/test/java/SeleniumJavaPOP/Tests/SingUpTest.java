@@ -44,7 +44,7 @@ public class SingUpTest extends BaseTest {
         singUp.setConfirmpassword(password);
         singUp.performSingUp();
 
-        new LogedUserPage(driver).checkHeading("Hi, "+firstName+" "+lastName);
+        new LogedUserPage(driver).checkHeading("Hi, " + firstName + " " + lastName);
 
     }
 
@@ -89,10 +89,10 @@ public class SingUpTest extends BaseTest {
 
     @Test
     public void singUpshort() {
-          //------------------ Test w wersji page object pattern ------------------//
+        //------------------ Test w wersji page object pattern ------------------//
 
         new TopBarMenuPage(driver).openSignUpForm();
-        new SingUpPage(driver).fillSingUpForm(firstName,lastName,phone,eMail,password);
+        new SingUpPage(driver).fillSingUpForm(firstName, lastName, phone, eMail, password);
         new LogedUserPage(driver).checkHeading("Hi, " + firstName + " " + lastName);
     }
 

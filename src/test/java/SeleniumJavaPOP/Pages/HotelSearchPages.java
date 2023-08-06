@@ -38,7 +38,7 @@ public class HotelSearchPages {
     private WebDriver driver;
 
     // --------------- Inicjalizacja zmiennych @FindBy za pomocą page object factory ----------------------- //
-    public HotelSearchPages(WebDriver driver){
+    public HotelSearchPages(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
