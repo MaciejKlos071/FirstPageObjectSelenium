@@ -39,40 +39,53 @@ public class HotelSearchPages {
 
     // --------------- Inicjalizacja zmiennych @FindBy za pomocą page object factory ----------------------- //
     public HotelSearchPages(WebDriver driver) {
+        System.out.println("Initializing driver.");
         PageFactory.initElements(driver, this);
+        System.out.println("Driver initialized");
         this.driver = driver;
     }
 
     // --------------- Metody na stronie ----------------------- //
 
     public void setCity(String cityName) {
+        System.out.println("Setting city name:" + cityName);
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
         driver.findElement(By.xpath(xpath)).click();
+        System.out.println("Setting city done.");
     }
 
     public void setDates(String checkInData, String checkOutData) {
+        System.out.println("Setting data in: " + checkInData);
         this.checkIn.sendKeys(checkInData);
+        System.out.println("Setting data in: " + checkOutData);
         this.checkOut.sendKeys(checkOutData);
+        System.out.println("Setting done.");
     }
 
     public void setTravelers(int adultsToAdd, int childToAdd) {
-
         travellersInput.click();
+        System.out.println("Setting adults: " + adultsToAdd);
         addTraveler(adultPlusBtn, adultsToAdd);
+        System.out.println("Setting child: " + childToAdd);
         addTraveler(childPlusBtn, childToAdd);
+        System.out.println("Setting travelers done.");
     }
 
     private void addTraveler(WebElement travelerBtn, int numberOfTravelers) {
+        System.out.println("Adding travelers: " +numberOfTravelers);
         for (int i = 0; i < numberOfTravelers; i++) {
             travelerBtn.click();
         }
-
+        System.out.println("Setting travelers done.");
     }
 
     public void performSearch() {
+        System.out.println("performing search.");
         searchButton.click();
+        System.out.println("performing search done.");
+
     }
 
 }

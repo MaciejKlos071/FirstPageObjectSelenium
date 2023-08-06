@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class TopBarMenuPage {
@@ -28,12 +29,12 @@ public class TopBarMenuPage {
 
     // --------------- Dodatkowe metody pomocnicze ----------------------- //
     public void waitForElementVisible(WebElement elementToWait) {
-        WebDriverWait wait = new WebDriverWait(this.driver, 10);
+        WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(elementToWait));
     }
 
     public void clickElement(WebElement elementToClick) {
-        WebDriverWait wait = new WebDriverWait(this.driver, 10);
+        WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
         elementToClick.click();
     }

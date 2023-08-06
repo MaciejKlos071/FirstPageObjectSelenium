@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.time.Duration;
+
 public class LogedUserPage {
 
     @FindBy(xpath = "")
@@ -34,13 +36,13 @@ public class LogedUserPage {
     // --------------- Dodatkowe metody pomocnicze ----------------------- //
 
     private void waitForElementVisible(WebElement elementToWait) {
-        WebDriverWait wait = new WebDriverWait(this.driver, 10);
+        WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(elementToWait));
 
     }
 
     private void clickElement(WebElement elementToClick) {
-        WebDriverWait wait = new WebDriverWait(this.driver, 10);
+        WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
         elementToClick.click();
 

@@ -22,11 +22,13 @@ public class HotelSearchTest extends BaseTest {
 
         ResultsPage resultsPage = new ResultsPage(driver);
         List<String> hotelNames = resultsPage.getHotelNames();
-
+        System.out.println("Starting Asseretions");
         Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
         Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower");
         Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
         Assert.assertEquals(hotelNames.get(3), "Hyatt Regency Perth");
+        System.out.println("Asseretions done.");
+
     }
 
     @Test
