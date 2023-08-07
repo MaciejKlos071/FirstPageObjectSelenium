@@ -1,6 +1,8 @@
 package SeleniumJavaPOP.Pages;
 
 import SeleniumJavaPOP.Model.User;
+import SeleniumJavaPOP.utils.SeleniumHelper;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -106,6 +108,7 @@ public class SingUpPage {
     }
 
     public List<String> errorList() {
+        SeleniumHelper.waitForNotEmptyList(driver, By.xpath("//div[@class='alert alert-danger']//p"));
         List<String> errors = errorList.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
@@ -131,5 +134,6 @@ public class SingUpPage {
         setConfirmpassword(user.getPassword());
         performSingUp();
     }
+
 
 }

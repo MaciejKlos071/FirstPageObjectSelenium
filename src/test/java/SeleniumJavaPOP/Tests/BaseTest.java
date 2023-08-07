@@ -9,6 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.*;
 
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
@@ -16,10 +17,10 @@ public class BaseTest {
     protected WebDriver driver;
 
     @BeforeMethod
-    public void setup() {
+    public void setup() throws IOException {
         System.out.println("TEST START");
 
-        driver = DriverFactory.getDriver("firefox");
+        driver = DriverFactory.getDriver();
         driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get("http://www.kurs-selenium.pl/demo/");

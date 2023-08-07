@@ -6,6 +6,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
+import java.io.IOException;
+
 public class DriverFactory {
     private static WebDriver driver;
 
@@ -13,7 +15,8 @@ public class DriverFactory {
         DriverFactory.driver = driver;
     }
 
-    public static WebDriver getDriver(String browser) {
+    public static WebDriver getDriver() throws IOException {
+        String browser = PropertiesLoader.loadPropertier("browser.name");
         if (driver == null) {
             switch (browser.toLowerCase()) {
                 case "chrome":

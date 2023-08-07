@@ -1,5 +1,6 @@
 package SeleniumJavaPOP.Pages;
 
+import SeleniumJavaPOP.utils.SeleniumHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -52,6 +53,7 @@ public class LogedUserPage {
 
     public void checkHeading(String expectedHeading) {
 //        waitForElementVisible(heading);
+        SeleniumHelper.wairForElementToVisible(driver, heading);
         Assert.assertTrue(heading.getText().contains(expectedHeading), "Heading" + expectedHeading + " correct");
 
     }

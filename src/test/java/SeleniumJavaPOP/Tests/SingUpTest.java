@@ -5,6 +5,8 @@ import SeleniumJavaPOP.Pages.LogedUserPage;
 import SeleniumJavaPOP.Pages.SingUpPage;
 import SeleniumJavaPOP.Pages.TopBarMenuPage;
 import SeleniumJavaPOP.utils.EmailGenerator;
+import SeleniumJavaPOP.utils.SeleniumHelper;
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -56,7 +58,6 @@ public class SingUpTest extends BaseTest {
         topBarMenu.openSignUpForm();
         SingUpPage singUp = new SingUpPage(driver);
         singUp.performSingUp();
-
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(singUp.errorList().contains("The Email field is required."));
         softAssert.assertTrue(singUp.errorList().contains("The Password field is required."));

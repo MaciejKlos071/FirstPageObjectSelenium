@@ -1,5 +1,6 @@
 package SeleniumJavaPOP.Pages;
 
+import SeleniumJavaPOP.utils.SeleniumHelper;
 import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -59,6 +60,7 @@ public class HotelSearchPages {
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
+        SeleniumHelper.wairForElementToExist(driver,By.xpath(xpath));
         driver.findElement(By.xpath(xpath)).click();
         logger.info("Setting city done.");
         logger.error("check error");
