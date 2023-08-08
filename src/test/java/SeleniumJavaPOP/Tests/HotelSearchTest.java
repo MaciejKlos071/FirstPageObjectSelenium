@@ -2,9 +2,11 @@ package SeleniumJavaPOP.Tests;
 
 import SeleniumJavaPOP.Pages.HotelSearchPages;
 import SeleniumJavaPOP.Pages.ResultsPage;
+import SeleniumJavaPOP.utils.ExcelReader;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 public class HotelSearchTest extends BaseTest {
@@ -45,5 +47,28 @@ public class HotelSearchTest extends BaseTest {
 
     }
 
+
+    @Test(dataProvider = "data")
+    public void searchHotelTestWithDataProvider(String city, String hotel) {
+
+        //------------------ Test w wersji page object pattern z data providerem------------------//
+        HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
+        hotelSearchPages.setCity(city);
+        hotelSearchPages.setDates("01/05/2022", "09/05/2022");
+        hotelSearchPages.setTravelers(1, 2);
+        hotelSearchPages.performSearch();
+
+        ResultsPage resultsPage = new ResultsPage(driver);
+        List<String> hotelNames = resultsPage.getHotelNames();
+        System.out.println("Starting Asseretions");
+        Assert.assertEquals(hotelNames.get(0), hotel);
+
+        System.out.println("Asseretions done.");
+    }
+
+    public Object[][] data() throws IOException {
+        return ExcelReader.readExcel("testData.xslx");
+
+    }
 
 }
