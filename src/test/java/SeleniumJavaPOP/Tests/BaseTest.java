@@ -1,6 +1,8 @@
 package SeleniumJavaPOP.Tests;
 
 import SeleniumJavaPOP.utils.DriverFactory;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 import org.openqa.selenium.By;
@@ -15,6 +17,20 @@ import java.util.concurrent.TimeUnit;
 public class BaseTest {
 
     protected WebDriver driver;
+    protected static ExtentSparkReporter sparkReporter;
+    protected static ExtentReports extentReports;
+
+    @BeforeSuite
+    public void beforeSuite(){
+        sparkReporter = new ExtentSparkReporter("index.html");
+        extentReports = new ExtentReports();
+        extentReports.attachReporter(sparkReporter);
+    }
+
+    @AfterSuite
+    public void afterSuite(){
+        extentReports.flush();
+    }
 
     @BeforeMethod
     public void setup() throws IOException {
@@ -32,6 +48,7 @@ public class BaseTest {
     }
 
 }
+
 
 //    @BeforeSuite
 //    public void beforeSuit(){

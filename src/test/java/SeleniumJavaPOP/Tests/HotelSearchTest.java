@@ -3,6 +3,8 @@ package SeleniumJavaPOP.Tests;
 import SeleniumJavaPOP.Pages.HotelSearchPages;
 import SeleniumJavaPOP.Pages.ResultsPage;
 import SeleniumJavaPOP.utils.ExcelReader;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -32,7 +34,30 @@ public class HotelSearchTest extends BaseTest {
         System.out.println("Asseretions done.");
 
     }
+    @Test
+    public void searchHotelTest2() {
+        //------------------ Test w wersji page object pattern / extend reports------------------//
+        ExtentTest test = extentReports.createTest("Search Hotel Test");
 
+        HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
+        hotelSearchPages.setCity("Dubai");
+        test.log(Status.PASS,"Setting city done");
+        hotelSearchPages.setDates("01/05/2022", "09/05/2022");
+        test.log(Status.PASS,"Setting city done");
+        hotelSearchPages.setTravelers(1, 2);
+        test.log(Status.PASS,"Setting city done");
+        hotelSearchPages.performSearch();
+
+        ResultsPage resultsPage = new ResultsPage(driver);
+        List<String> hotelNames = resultsPage.getHotelNames();
+        System.out.println("Starting Asseretions");
+        Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
+        Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower");
+        Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
+        Assert.assertEquals(hotelNames.get(3), "Hyatt Regency Perth");
+        System.out.println("Asseretions done.");
+
+    }
     @Test
     public void searchHotelWithoutName() {
 
