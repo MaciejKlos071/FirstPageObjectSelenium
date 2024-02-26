@@ -3,6 +3,7 @@ package SeleniumJavaPOP.Tests;
 import SeleniumJavaPOP.Pages.HotelSearchPages;
 import SeleniumJavaPOP.Pages.ResultsPage;
 import SeleniumJavaPOP.utils.ExcelReader;
+import SeleniumJavaPOP.utils.SeleniumHelper;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import org.testng.Assert;
@@ -35,29 +36,32 @@ public class HotelSearchTest extends BaseTest {
 
     }
     @Test
-    public void searchHotelTest2() {
+    public void searchHotelTest2() throws IOException {
         //------------------ Test w wersji page object pattern / extend reports------------------//
         ExtentTest test = extentReports.createTest("Search Hotel Test");
 
         HotelSearchPages hotelSearchPages = new HotelSearchPages(driver);
         hotelSearchPages.setCity("Dubai");
-        test.log(Status.PASS,"Setting city done");
+        test.log(Status.PASS,"Setting city done", SeleniumHelper.getScreenshot(driver));
         hotelSearchPages.setDates("01/05/2022", "09/05/2022");
-        test.log(Status.PASS,"Setting city done");
+        test.log(Status.PASS,"Setting date done", SeleniumHelper.getScreenshot(driver));
         hotelSearchPages.setTravelers(1, 2);
-        test.log(Status.PASS,"Setting city done");
+        test.log(Status.PASS,"Setting travelers done", SeleniumHelper.getScreenshot(driver));
         hotelSearchPages.performSearch();
+        test.log(Status.PASS,"Performing search done", SeleniumHelper.getScreenshot(driver));
+
 
         ResultsPage resultsPage = new ResultsPage(driver);
         List<String> hotelNames = resultsPage.getHotelNames();
-        System.out.println("Starting Asseretions");
+
         Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
         Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower");
         Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
         Assert.assertEquals(hotelNames.get(3), "Hyatt Regency Perth");
-        System.out.println("Asseretions done.");
+        test.log(Status.PASS,"Assertions passed");
 
     }
+
     @Test
     public void searchHotelWithoutName() {
 

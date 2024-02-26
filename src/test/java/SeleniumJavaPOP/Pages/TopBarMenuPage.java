@@ -14,10 +14,13 @@ public class TopBarMenuPage {
 
     // --------------- Selektory elementów na stronie ----------------------- //
     @FindBy(xpath = "//li[@id='li_myaccount']")
-    private List<WebElement> singUpTopBarElement;
+    private List<WebElement> myAccountTopBarElement;
 
     @FindBy(xpath = "//a[text() = '  Sign Up']")
     private List<WebElement> singUpTopBarListElement;
+
+    @FindBy(xpath = "//a[text() = ' Login']")
+    private List<WebElement> logInTopBarListElement;
 
     private final WebDriver driver;
 
@@ -40,8 +43,8 @@ public class TopBarMenuPage {
     }
 
     // --------------- Metody na stronie ----------------------- //
-    private void performSingUpTopBar() {
-        singUpTopBarElement.stream().filter(WebElement::isDisplayed)
+    private void performMyAccountTopBar() {
+        myAccountTopBarElement.stream().filter(WebElement::isDisplayed)
                 .findFirst().ifPresent(WebElement::click);
     }
 
@@ -49,10 +52,19 @@ public class TopBarMenuPage {
         waitForElementVisible(singUpTopBarListElement.get(1));
         clickElement(singUpTopBarListElement.get(1));
     }
+    private void openLogInTopBarListElement() {
+        waitForElementVisible(logInTopBarListElement.get(1));
+        clickElement(logInTopBarListElement.get(1));
+    }
 
     public void openSignUpForm() {
-        performSingUpTopBar();
+        performMyAccountTopBar();
         singUpTopBarListElement();
+    }
+
+    public void openLoginPage(){
+        performMyAccountTopBar();
+        openLogInTopBarListElement();
     }
 
 }

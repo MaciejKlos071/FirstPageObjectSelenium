@@ -15,7 +15,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SingUpPage {
+public class SingUpPage extends SeleniumHelper {
 
     // --------------- Selektory elementów na stronie ----------------------- //
     @FindBy(name = "firstname")
@@ -108,11 +108,7 @@ public class SingUpPage {
     }
 
     public List<String> errorList() {
-        SeleniumHelper.waitForNotEmptyList(driver, By.xpath("//div[@class='alert alert-danger']//p"));
-        List<String> errors = errorList.stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-        return errors;
+        return informationList(driver, errorList);
     }
 
     public void fillSingUpForm(String fName, String lName, String phoneNum, String eMail, String password) {
