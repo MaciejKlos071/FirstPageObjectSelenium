@@ -11,7 +11,7 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
-public class LogedUserPage {
+public class LogedUserPage extends SeleniumHelper{
 
     @FindBy(xpath = "")
     private WebElement element;
@@ -34,26 +34,9 @@ public class LogedUserPage {
 
     }
 
-    // --------------- Dodatkowe metody pomocnicze ----------------------- //
-
-    private void waitForElementVisible(WebElement elementToWait) {
-        WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(elementToWait));
-
-    }
-
-    private void clickElement(WebElement elementToClick) {
-        WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
-        elementToClick.click();
-
-    }
-
     // --------------- Metody na stronie ----------------------- //
-
     public void checkHeading(String expectedHeading) {
-//        waitForElementVisible(heading);
-        SeleniumHelper.wairForElementToVisible(driver, heading);
+        wairForElementToVisible(driver, heading);
         Assert.assertTrue(heading.getText().contains(expectedHeading), "Heading" + expectedHeading + " correct");
 
     }

@@ -4,12 +4,12 @@ import SeleniumJavaPOP.utils.DriverFactory;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.*;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterMethod;
 
 import java.io.IOException;
+import java.sql.DriverManager;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
@@ -34,8 +34,10 @@ public class BaseTest {
     @BeforeMethod
     public void setup() throws IOException {
         System.out.println("TEST START");
+        System.out.println(driver);
 
         driver = DriverFactory.getDriver();
+        System.out.println(driver);
         driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get("http://www.kurs-selenium.pl/demo/");
@@ -43,7 +45,12 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown() {
-        driver.close();
+        if(driver != null) {
+            System.out.println("tear down?");
+            driver.quit();
+
+            DriverFactory.setDriver(null);
+        }
     }
 
 }

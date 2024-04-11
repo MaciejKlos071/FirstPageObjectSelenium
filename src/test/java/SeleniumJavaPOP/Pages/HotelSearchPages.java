@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 //import java.util.logging.LogManager;
 
-public class HotelSearchPages {
+public class HotelSearchPages extends SeleniumHelper{
 
 
     @FindBy(xpath = "//span[contains(text(),'Search by H')]")
@@ -57,45 +57,42 @@ public class HotelSearchPages {
 
     public void setCity(String cityName) {
         logger.info("Setting city name:" + cityName);
-        searchHotelSpan.click();
-        searchHotelInput.sendKeys(cityName);
-        String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
-        SeleniumHelper.wairForElementToExist(driver,By.xpath(xpath));
-        driver.findElement(By.xpath(xpath)).click();
+        clickElement(driver,searchHotelSpan);
+        setInputField(driver,searchHotelInput,cityName);
+        clickElement(driver,driver.findElement
+                (By.xpath(String.format("//span[@class='select2-match' and text()='%s']",cityName))));
         logger.info("Setting city done.");
-        logger.error("check error");
     }
 
     public void setDates(String checkInData, String checkOutData) {
         logger.info("Setting data in: " + checkInData);
-        this.checkIn.sendKeys(checkInData);
+        setInputField(driver,checkIn,checkInData);
         logger.info("Setting data in: " + checkOutData);
-        this.checkOut.sendKeys(checkOutData);
-        System.out.println("Setting done.");
+        setInputField(driver,checkOut,checkOutData);
+        logger.info("Setting done.");
+
     }
 
     public void setTravelers(int adultsToAdd, int childToAdd) {
-        travellersInput.click();
+        clickElement(driver,travellersInput);
         logger.info("Setting adults: " + adultsToAdd);
-
         addTraveler(adultPlusBtn, adultsToAdd);
         logger.info("Setting child: " + childToAdd);
-
         addTraveler(childPlusBtn, childToAdd);
         logger.info("Setting travelers done.");
     }
 
     private void addTraveler(WebElement travelerBtn, int numberOfTravelers) {
-        System.out.println("Adding travelers: " +numberOfTravelers);
+        logger.info("Adding travelers: " +numberOfTravelers);
         for (int i = 0; i < numberOfTravelers; i++) {
-            travelerBtn.click();
+            clickElement(driver,travelerBtn);
         }
-        System.out.println("Setting travelers done.");
+        logger.info("Setting travelers done.");
     }
 
     public void performSearch() {
         logger.info("performing search.");
-        searchButton.click();
+        clickElement(driver,searchButton);
         logger.info("performing search done.");
 
     }

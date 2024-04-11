@@ -7,6 +7,7 @@ import SeleniumJavaPOP.Pages.TopBarMenuPage;
 import SeleniumJavaPOP.utils.EmailGenerator;
 import SeleniumJavaPOP.utils.SeleniumHelper;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -112,5 +113,27 @@ public class SingUpTest extends BaseTest {
         new LogedUserPage(driver).checkHeading("Hi, " + user.getFirstName() + " " + user.getLastName());
     }
 
+    @Test
+    public void singUpshortUserModel(WebDriver driver, String fName, String sName, String phoneNr, String eMailLogin , String password ) {
+
+        //------------------ Test w wersji page object pattern ------------------//
+        new TopBarMenuPage(driver).openSignUpForm();
+        User user = new User();
+        user.setFirstName(fName);
+        user.setLastName(sName);
+        user.setPhone(phoneNr);
+        user.setEmail(eMailLogin);
+        user.setPassword(password);
+        new SingUpPage(driver).fillSingUpFormUserModel(user);
+        new LogedUserPage(driver).checkHeading("Hi, " + user.getFirstName() + " " + user.getLastName());
+    }
+    public void singUpUserObject(WebDriver driver, User user) {
+
+        //------------------ Test w wersji page object pattern ------------------//
+        new TopBarMenuPage(driver).openSignUpForm();
+        new SingUpPage(driver).fillSingUpFormUserModel(user);
+        new LogedUserPage(driver).checkHeading("Hi, " + user.getFirstName() + " " + user.getLastName());
+
+    }
 
 }

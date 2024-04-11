@@ -4,6 +4,9 @@ import SeleniumJavaPOP.Pages.LogedUserPage;
 import SeleniumJavaPOP.Pages.LoginPage;
 import SeleniumJavaPOP.Pages.TopBarMenuPage;
 import SeleniumJavaPOP.utils.EmailGenerator;
+import SeleniumJavaPOP.utils.SeleniumHelper;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 
+import java.io.IOException;
 import java.time.Duration;
 
 public class LogInTest extends BaseTest {
@@ -19,30 +23,21 @@ public class LogInTest extends BaseTest {
     private static final String password = "AutomatyzacjaTest";
 
     @Test
-    public void logIn() {
+    public void logIn() throws IOException {
+        ExtentTest test = extentReports.createTest("Search Hotel Test");
 
-        TopBarMenuPage topBarMenuPage = new TopBarMenuPage(driver);
         new TopBarMenuPage(driver).openLoginPage();
-        WebElement eMailInput = driver.findElement(By.name("username"));
-        WebElement passwordInput = driver.findElement(By.name("password"));
-        WebElement checkBoxRemmember = driver.findElement(By.xpath("//input[@name='remember']"));
-        WebElement logInButton = driver.findElement(By.xpath("//button[@TYPE = 'submit'][text() = 'Login']"));
-        eMailInput.sendKeys(eMail);
-        passwordInput.sendKeys(password);
-        // Sprawdź czy checkbox jest zaznaczony
-        if (checkBoxRemmember.isSelected()) {
-            System.out.println("Checkbox jest zaznaczony!");
-        } else {
-            System.out.println("Checkbox nie jest zaznaczony!");
-            checkBoxRemmember.click();
-        }
-        logInButton.click();
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.setLoginMail(eMail);
+        loginPage.setPassword(password);
+        loginPage.selectCheckBoxRememberMe();
+        loginPage.performLogInButton();
         new LogedUserPage(driver).checkHeading("Hi, " + "maciej" + " " + "maciej");
+        test.log(Status.PASS,"login done", SeleniumHelper.getScreenshot(driver));
     }
 
-    // logIn Test Refactored extended by POP
     @Test
-    public void logInPoP(){
+    public void loginAllert(){
         new TopBarMenuPage(driver).openLoginPage();
         LoginPage loginPage = new LoginPage(driver);
         loginPage.setLoginMail("invalidEmail");
@@ -52,6 +47,16 @@ public class LogInTest extends BaseTest {
         Assert.assertEquals(loginPage.errorList().get(0), "Invalid Email or Password");
 
     }
+    @Test
+    public void loginInvalidPassword(){
+        new TopBarMenuPage(driver).openLoginPage();
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.setLoginMail(eMail);
+        loginPage.setPassword("invalidPassword");
+        loginPage.selectCheckBoxRememberMe();
+        loginPage.performLogInButton();
+        Assert.assertEquals(loginPage.errorList().get(0), "Invalid Email or Password");
 
+    }
 
 }

@@ -15,38 +15,39 @@ import java.util.stream.Collectors;
 
 public class SeleniumHelper {
 
+    private WebDriverWait wait;
+
+    public void HelperMethods(WebDriver driver) {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
 
     // --------------- Dodatkowe metody pomocnicze ----------------------- //
     protected void waitForElementVisible(WebDriver driver, WebElement elementToWait) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(elementToWait));
 
     }
 
     protected void clickElement(WebDriver driver, WebElement elementToClick) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(elementToClick));
-        elementToClick.click();
+        wait.until(ExpectedConditions.elementToBeClickable(elementToClick)).click();
 
     }
-
-    public static void wairForElementToExist(WebDriver driver, By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    public void setInputField(WebDriver driver, WebElement element, String text) {
+        element.clear();
+        element.sendKeys(text);
+    }
+    public  void wairForElementToExist(WebDriver driver, By locator) {
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    public static void wairForElementToVisible(WebDriver driver, WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    public  void wairForElementToVisible(WebDriver driver, WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    protected static void waitForNotEmptyList(WebDriver driver, By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    protected  void waitForNotEmptyList(WebDriver driver, By locator) {
         wait.until(browser -> browser.findElements(locator).size() > 0);
     }
 
-    protected static void waitForNotEmptyList(WebDriver driver, List<WebElement> webElementsList) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    protected  void waitForNotEmptyList(WebDriver driver, List<WebElement> webElementsList) {
         wait.until(browser -> webElementsList.size() > 0);
     }
 
@@ -65,7 +66,7 @@ public class SeleniumHelper {
     }
 
     protected List<String> informationList(WebDriver driver, List<WebElement> errorsList) {
-        SeleniumHelper.waitForNotEmptyList(driver, errorsList);
+        waitForNotEmptyList(driver, errorsList);
         List<String> errors = errorsList.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
